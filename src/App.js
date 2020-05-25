@@ -55,7 +55,7 @@ const App = () => {
   );
 
   return (
-    <>
+    <Epic tabbar={customTabbar()} >
       <View activePanel={activePanel} popout={popout}>
         <Panel id="main">
           <PanelHeader>Профиль</PanelHeader>
@@ -87,8 +87,7 @@ const App = () => {
           <PanelHeader>Магазин</PanelHeader>
         </Panel>
       </View>
-      <Epic tabbar={customTabbar()} />
-    </>
+      </Epic>
   );
 };
 
