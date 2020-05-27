@@ -6,30 +6,28 @@ import Icon24ChatsOutline from '@vkontakte/icons/dist/24/chats';
 import Icon24Gift from '@vkontakte/icons/dist/24/gift';
 
 // eslint-disable-next-line react/prop-types
-const BottomMenu = ({ activePanel, setActivePanel }) => (
-  <Tabbar>
+const BottomMenu = ({ activePanel, setActivePanel }) => {
+  const menuData = [
+    { id: 'main', text: 'Профиль', children: <Icon24UserOutline /> },
+    { id: 'chat', text: 'Чат', children: <Icon24ChatsOutline /> },
+    { id: 'store', text: 'Магазин', children: <Icon24Gift /> },
+  ];
+
+  const menu = menuData.map((item, index) => (
     <TabbarItem
-      text="Профиль"
-      onClick={() => setActivePanel('main')}
-      selected={activePanel === 'main'}
+      // eslint-disable-next-line react/no-array-index-key
+      key={index}
+      text={item.text}
+      onClick={() => setActivePanel(item.id)}
+      selected={activePanel === item.id}
     >
-      <Icon24UserOutline />
+      {item.children}
     </TabbarItem>
-    <TabbarItem
-      text="Чат"
-      onClick={() => setActivePanel('chat')}
-      selected={activePanel === 'chat'}
-    >
-      <Icon24ChatsOutline />
-    </TabbarItem>
-    <TabbarItem
-      text="Магазин"
-      onClick={() => setActivePanel('store')}
-      selected={activePanel === 'store'}
-    >
-      <Icon24Gift />
-    </TabbarItem>
-  </Tabbar>
-);
+  ));
+
+  return (
+    <Tabbar>{menu}</Tabbar>
+  );
+};
 
 export default BottomMenu;
