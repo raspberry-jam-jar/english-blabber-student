@@ -36,26 +36,32 @@ const App = () => {
 
   const customTabbar = () => (
     <Tabbar>
-      <TabbarItem 
-        text="Профиль" 
-        onClick={() => setActivePanel("main")}
-        selected={activePanel === "main"}
-      ><Icon24UserOutline /></TabbarItem>
-      <TabbarItem 
-        text="Чат" 
-        onClick={() => setActivePanel("chat")}
-        selected={activePanel === "chat"}
-      ><Icon24ChatsOutline /></TabbarItem>
-      <TabbarItem 
-        text="Магазин" 
-        onClick={() => setActivePanel("store")}
-        selected={activePanel === "store"}
-      ><Icon24Gift /></TabbarItem>
+      <TabbarItem
+        text="Профиль"
+        onClick={() => setActivePanel('main')}
+        selected={activePanel === 'main'}
+      >
+        <Icon24UserOutline />
+      </TabbarItem>
+      <TabbarItem
+        text="Чат"
+        onClick={() => setActivePanel('chat')}
+        selected={activePanel === 'chat'}
+      >
+        <Icon24ChatsOutline />
+      </TabbarItem>
+      <TabbarItem
+        text="Магазин"
+        onClick={() => setActivePanel('store')}
+        selected={activePanel === 'store'}
+      >
+        <Icon24Gift />
+      </TabbarItem>
     </Tabbar>
   );
 
   return (
-    <Epic tabbar={customTabbar()} >
+    <Epic tabbar={customTabbar()}>
       <View activePanel={activePanel} popout={popout}>
         <Panel id="main">
           <PanelHeader>Профиль</PanelHeader>
@@ -87,7 +93,7 @@ const App = () => {
           <PanelHeader>Магазин</PanelHeader>
         </Panel>
       </View>
-      </Epic>
+    </Epic>
   );
 };
 
