@@ -20,18 +20,6 @@ const App = () => {
     console.log(user.id, user.first_name, user.last_name);
   };
 
-  const profileIconClickHandler = () => {
-    setActivePanel('main');
-  };
-
-  const chatIconClickHandler = () => {
-    setActivePanel('chat');
-  };
-
-  const storeIconClickHandler = () => {
-    setActivePanel('store');
-  };
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -48,9 +36,21 @@ const App = () => {
 
   const customTabbar = () => (
     <Tabbar>
-      <TabbarItem text="Профиль" onClick={profileIconClickHandler}><Icon24UserOutline /></TabbarItem>
-      <TabbarItem text="Чат" onClick={chatIconClickHandler}><Icon24ChatsOutline /></TabbarItem>
-      <TabbarItem text="Магазин" onClick={storeIconClickHandler}><Icon24Gift /></TabbarItem>
+      <TabbarItem 
+        text="Профиль" 
+        onClick={() => setActivePanel("main")}
+        selected={activePanel === "main"}
+      ><Icon24UserOutline /></TabbarItem>
+      <TabbarItem 
+        text="Чат" 
+        onClick={() => setActivePanel("chat")}
+        selected={activePanel === "chat"}
+      ><Icon24ChatsOutline /></TabbarItem>
+      <TabbarItem 
+        text="Магазин" 
+        onClick={() => setActivePanel("store")}
+        selected={activePanel === "store"}
+      ><Icon24Gift /></TabbarItem>
     </Tabbar>
   );
 
