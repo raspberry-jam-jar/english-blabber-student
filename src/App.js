@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import {
-  View, Panel, PanelHeader, Div, Button, Epic, Tabbar, TabbarItem,
-  Group, Cell, Avatar,
+  View, Panel, PanelHeader, Div, Button, Epic, Group, Cell, Avatar,
 } from '@vkontakte/vkui';
-import Icon24UserOutline from '@vkontakte/icons/dist/24/user';
-import Icon24ChatsOutline from '@vkontakte/icons/dist/24/chats';
-import Icon24Gift from '@vkontakte/icons/dist/24/gift';
 import '@vkontakte/vkui/dist/vkui.css';
+
+import BottomMenu from './components/BottomMenu';
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -34,34 +32,8 @@ const App = () => {
     fetchData();
   }, []);
 
-  const customTabbar = () => (
-    <Tabbar>
-      <TabbarItem
-        text="Профиль"
-        onClick={() => setActivePanel('main')}
-        selected={activePanel === 'main'}
-      >
-        <Icon24UserOutline />
-      </TabbarItem>
-      <TabbarItem
-        text="Чат"
-        onClick={() => setActivePanel('chat')}
-        selected={activePanel === 'chat'}
-      >
-        <Icon24ChatsOutline />
-      </TabbarItem>
-      <TabbarItem
-        text="Магазин"
-        onClick={() => setActivePanel('store')}
-        selected={activePanel === 'store'}
-      >
-        <Icon24Gift />
-      </TabbarItem>
-    </Tabbar>
-  );
-
   return (
-    <Epic tabbar={customTabbar()}>
+    <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
       <View activePanel={activePanel} popout={popout}>
         <Panel id="main">
           <PanelHeader>Профиль</PanelHeader>
