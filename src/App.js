@@ -5,15 +5,19 @@ import {
   View, Panel, PanelHeader, Div, Button, Epic, Group, Cell, Avatar,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
+import { useLocation } from 'react-router-dom';
+
 import BlabberAPI from './api';
 
 import BottomMenu from './components/BottomMenu';
 
 const App = () => {
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [status] = useState('не получен');
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const [activePanel, setActivePanel] = useState('main');
+  console.log(location);
 
   const buttonSendRequestHandler = () => {
     console.log('Отправлена заявка:');
@@ -52,6 +56,7 @@ const App = () => {
 
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
+      {/* <p>{new URLSearchParams(location.search).get('name')}</p> */}
       <View activePanel={activePanel} popout={popout}>
         <Panel id="main">
           <PanelHeader>Профиль</PanelHeader>
