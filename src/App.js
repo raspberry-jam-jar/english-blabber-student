@@ -11,7 +11,7 @@ import BottomMenu from './components/BottomMenu';
 
 const App = () => {
   const [user, setUser] = useState(null);
-  const [status, setStatus] = useState('не получен');
+  const [status] = useState('не получен');
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const [activePanel, setActivePanel] = useState('main');
 
@@ -37,9 +37,9 @@ const App = () => {
   useEffect(() => {
     const api = new BlabberAPI();
     if (user && user.id) {
-      api.getStatus(user.id)
+      api.postApply(user.id, user.first_name, user.last_name)
         .then((resp) => {
-          setStatus(resp.status);
+          console.log(resp);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
