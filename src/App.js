@@ -5,7 +5,7 @@ import {
   View, Panel, PanelHeader, Div, Button, Epic, Group, Cell, Avatar,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import PersikApi from './api';
+import BlabberAPI from './api';
 
 import BottomMenu from './components/BottomMenu';
 
@@ -35,7 +35,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const api = new PersikApi();
+    const api = new BlabberAPI();
     if (user && user.id) {
       api.getStatus(user.id)
         .then((resp) => {

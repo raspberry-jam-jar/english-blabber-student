@@ -1,5 +1,7 @@
-class PersikApi {
-  apiBase = 'https://desolate-island-09476.herokuapp.com/api/v1/';
+const ApiBaseFromEnv = 'https://desolate-island-09476.herokuapp.com/api/v1/';
+
+class BlabberAPI {
+  apiBase = ApiBaseFromEnv;
 
   async getResource(url) {
     const res = await fetch(`${this.apiBase}${url}`);
@@ -15,4 +17,4 @@ class PersikApi {
   }
 }
 
-export default PersikApi;
+export default BlabberAPI;
