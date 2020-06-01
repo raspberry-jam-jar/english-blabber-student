@@ -13,14 +13,14 @@ import BottomMenu from './components/BottomMenu';
 
 const App = () => {
   const location = useLocation();
+  const [authStr] = useState(location.search);
   const [user, setUser] = useState(null);
   const [status] = useState('не получен');
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const [activePanel, setActivePanel] = useState('main');
-  console.log(location);
 
   const buttonSendRequestHandler = () => {
-    console.log('Отправлена заявка:');
+    console.log('Здесь мы знаем про пользователя:');
     console.log(user.id, user.first_name, user.last_name);
   };
 
@@ -53,6 +53,18 @@ const App = () => {
       console.log('id пустой - не могу получить статус');
     }
   }, [user]);
+
+  useEffect(() => {
+    const api = new BlabberAPI();
+    api.getAuth(authStr)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
+  }, [authStr]);
 
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>

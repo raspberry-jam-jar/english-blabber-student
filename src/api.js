@@ -25,8 +25,8 @@ class BlabberAPI {
     return res.ok;
   }
 
-  getStatus(id) {
-    return this.getResource(`status/${id}`);
+  getAuth(string) {
+    return this.getResource(`vk_auth/${string}`);
   }
 
   postApply(id, name, surname) {
