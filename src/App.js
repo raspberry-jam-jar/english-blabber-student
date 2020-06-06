@@ -15,13 +15,26 @@ const App = () => {
   const location = useLocation();
   const [authStr] = useState(location.search);
   const [user, setUser] = useState(null);
-  const [status] = useState('не получен');
+  const [status, setStatus] = useState(0);
   const [popout, setPopout] = useState(<ScreenSpinner size="large" />);
   const [activePanel, setActivePanel] = useState('main');
 
   const buttonSendRequestHandler = () => {
-    console.log('Здесь мы знаем про пользователя:');
+    console.log('Здесь мы отправляем apply:');
     console.log(user.id, user.first_name, user.last_name);
+    const api = new BlabberAPI();
+    if (user && user.id) {
+      api.postApply(user.id, user.first_name, user.last_name)
+        .then((resp) => {
+          console.log(resp);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    } else {
+      console.log('id пустой - не могу отправить данные');
+    }
   };
 
   useEffect(() => {
@@ -40,25 +53,9 @@ const App = () => {
 
   useEffect(() => {
     const api = new BlabberAPI();
-    if (user && user.id) {
-      api.postApply(user.id, user.first_name, user.last_name)
-        .then((resp) => {
-          console.log(resp);
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        });
-    } else {
-      console.log('id пустой - не могу получить статус');
-    }
-  }, [user]);
-
-  useEffect(() => {
-    const api = new BlabberAPI();
     api.getAuth(authStr)
       .then((resp) => {
-        console.log(resp);
+        setStatus(resp);
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
@@ -68,7 +65,6 @@ const App = () => {
 
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
-      {/* <p>{new URLSearchParams(location.search).get('name')}</p> */}
       <View activePanel={activePanel} popout={popout}>
         <Panel id="main">
           <PanelHeader>Профиль</PanelHeader>

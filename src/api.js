@@ -1,6 +1,7 @@
 class BlabberAPI {
   apiBase = process.env.REACT_APP_SERVER || '';
 
+  // basic methods
   async getResource(url) {
     const res = await fetch(`${this.apiBase}${url}`);
     if (!res.ok) {
@@ -10,23 +11,26 @@ class BlabberAPI {
     return response;
   }
 
-  async postData(url, headers, body) {
+  async getStatus(url) {
+    const res = await fetch(`${this.apiBase}${url}`);
+    return res.status;
+  }
+
+  async postData(url, body) {
     const res = await fetch(`${this.apiBase}${url}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(body),
     });
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, status: ${res.status}`);
     }
-    // const response = await res.json();
     return res.ok;
   }
 
+  // app methods
   getAuth(string) {
-    return this.getResource(`vk_auth/${string}`);
+    return this.getStatus(`vk_auth/${string}`);
   }
 
   postApply(id, name, surname) {
