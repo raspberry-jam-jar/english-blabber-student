@@ -13,7 +13,7 @@ class BlabberAPI {
 
   async getStatus(url) {
     const res = await fetch(`${this.apiBase}${url}`);
-    return res.status;
+    return { code: res.status, text: res.statusText };
   }
 
   async postData(url, body) {

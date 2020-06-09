@@ -77,7 +77,7 @@ const App = () => {
                   description="нажмите кнопку ниже чтобы отправить заявку:"
                 >
                   {`${user.first_name} ${user.last_name}`}
-                  {` (статус: ${status})`}
+                  {` (статус: ${status.text})`}
                 </Cell>
               </Group>
               <Button
