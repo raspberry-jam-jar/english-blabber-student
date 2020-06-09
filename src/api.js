@@ -13,7 +13,7 @@ class BlabberAPI {
 
   async getStatus(url) {
     const res = await fetch(`${this.apiBase}${url}`);
-    return { code: res.status, text: res.statusText };
+    return { code: res.status };
   }
 
   async postData(url, body) {
@@ -34,7 +34,7 @@ class BlabberAPI {
   }
 
   postApply(id, name, surname) {
-    return this.postData('apply/', {}, { code: id, first_name: name, last_name: surname });
+    return this.postData('apply/', { code: id, first_name: name, last_name: surname });
   }
 }
 
