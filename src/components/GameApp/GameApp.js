@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import {
-  View, Panel, PanelHeader, Epic, ScreenSpinner,
+  View, Panel, PanelHeader, Epic,
 } from '@vkontakte/vkui';
 
-import BottomMenu from './components/BottomMenu';
+import BottomMenu from '../BottomMenu/BottomMenu';
 
 const GameApp = () => {
-  const [activePanel, setActivePanel] = useState('main');
-  const [popout] = useState(<ScreenSpinner size="large" />);
+  const [activePanel, setActivePanel] = useState('profile');
 
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
-      <View activePanel={activePanel} popout={popout}>
+      <View activePanel={activePanel}>
         <Panel id="profile">
           <PanelHeader>Профиль</PanelHeader>
         </Panel>
