@@ -1,11 +1,10 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Tabbar, TabbarItem } from '@vkontakte/vkui';
 import Icon24UserOutline from '@vkontakte/icons/dist/24/user';
 import Icon24ChatsOutline from '@vkontakte/icons/dist/24/chats';
 import Icon24Gift from '@vkontakte/icons/dist/24/gift';
 
-// eslint-disable-next-line react/prop-types
 const BottomMenu = ({ activePanel, setActivePanel }) => {
   const menuData = [
     { id: 'profile', text: 'Профиль', children: <Icon24UserOutline /> },
@@ -28,6 +27,11 @@ const BottomMenu = ({ activePanel, setActivePanel }) => {
   return (
     <Tabbar>{menu}</Tabbar>
   );
+};
+
+BottomMenu.propTypes = {
+  activePanel: PropTypes.string.isRequired,
+  setActivePanel: PropTypes.func.isRequired,
 };
 
 export default BottomMenu;

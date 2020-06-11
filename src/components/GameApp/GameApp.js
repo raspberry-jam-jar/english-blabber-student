@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import PropTypes from 'prop-types';
 import {
   View, Panel, PanelHeader, Epic,
 } from '@vkontakte/vkui';
@@ -24,5 +25,7 @@ const GameApp = () => {
     </Epic>
   );
 };
+
+GameApp.propTypes = {};
 
 export default GameApp;
