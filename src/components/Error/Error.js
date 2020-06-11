@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './error.module.scss';
 import icon from './bug.png';
 
-// eslint-disable-next-line react/prop-types
 const ErrorIndicator = ({ message }) => (
   <div className={styles.error}>
     <div>
@@ -16,5 +16,9 @@ const ErrorIndicator = ({ message }) => (
     </div>
   </div>
 );
+
+ErrorIndicator.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 export default ErrorIndicator;

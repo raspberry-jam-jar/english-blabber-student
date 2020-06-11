@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   View, Panel, PanelHeader, Placeholder, Button,
 } from '@vkontakte/vkui';
@@ -6,8 +7,9 @@ import styles from './newUser.module.scss';
 
 import BlabberAPI from '../../api';
 
-// eslint-disable-next-line object-curly-newline
-const NewUser = ({ user, status, setStatus, setLoading, setError }) => {
+const NewUser = ({
+  user, status, setStatus, setLoading, setError,
+}) => {
   const buttonSendRequestHandler = () => {
     setLoading(true);
     const api = new BlabberAPI();
@@ -54,6 +56,18 @@ const NewUser = ({ user, status, setStatus, setLoading, setError }) => {
       </Panel>
     </View>
   );
+};
+
+NewUser.propTypes = {
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  }).isRequired,
+  status: PropTypes.string.isRequired,
+  setStatus: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 export default NewUser;
