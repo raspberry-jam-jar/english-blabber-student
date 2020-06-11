@@ -43,6 +43,7 @@
     "eruda-code": "^2.0.0",
     "eruda-dom": "^2.0.0",
     "ms": "^2.1.2",
+    "node-sass": "^4.14.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

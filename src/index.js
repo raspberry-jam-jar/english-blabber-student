@@ -11,9 +11,7 @@ bridge.send('VKWebAppInit');
 
 ReactDOM.render(
   <Router>
-    <div>
-      <Route exact path="/"><App /></Route>
-    </div>
+    <Route exact path="/"><App /></Route>
   </Router>,
   document.getElementById('root'),
 );

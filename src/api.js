@@ -13,6 +13,10 @@ class BlabberAPI {
 
   async getStatus(url) {
     const res = await fetch(`${this.apiBase}${url}`);
+    const workErrors = [400, 401, 403];
+    if (!res.ok && !workErrors.includes(res.status)) {
+      throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+    }
     return { code: res.status };
   }
 
