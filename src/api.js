@@ -11,10 +11,9 @@ class BlabberAPI {
     return response;
   }
 
-  async getStatus(url) {
+  async getStatus(url, notErrorArray = []) {
     const res = await fetch(`${this.apiBase}${url}`);
-    const workErrors = [400, 401, 403];
-    if (!res.ok && !workErrors.includes(res.status)) {
+    if (!res.ok && !notErrorArray.includes(res.status)) {
       throw new Error(`Could not fetch ${url}, status: ${res.status}`);
     }
     return { code: res.status };
@@ -34,7 +33,7 @@ class BlabberAPI {
 
   // app methods
   getAuth(string) {
-    return this.getStatus(`vk_auth/${string}`);
+    return this.getStatus(`vk_auth/${string}`, [400, 401, 403]);
   }
 
   postApply(id, name, surname) {
