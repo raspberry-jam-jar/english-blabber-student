@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 // import PropTypes from 'prop-types';
 import {
-  View, Panel, PanelHeader, Epic,
+  View, Panel, PanelHeader, Epic, Group, Header, CardGrid, Card,
 } from '@vkontakte/vkui';
 
 import BottomMenu from '../BottomMenu/BottomMenu';
+import GiftCart from '../GiftCart/GiftCart';
+import styles from './gameApp.module.scss';
+
+const gift = {
+  canBuy: false,
+  image: '',
+  price: 10,
+  name: 'Дополнительное время на тесте',
+};
 
 const GameApp = () => {
-  const [activePanel, setActivePanel] = useState('profile');
-
+  const [activePanel, setActivePanel] = useState('store');
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
       <View activePanel={activePanel}>
@@ -20,6 +28,23 @@ const GameApp = () => {
         </Panel>
         <Panel id="store">
           <PanelHeader>Магазин</PanelHeader>
+          <Header mode="secondary">Подарки</Header>
+          <div className={styles.giftsGroup}>
+            <GiftCart gift={gift} />
+            <GiftCart gift={gift} />
+            <GiftCart gift={gift} />
+            <GiftCart gift={gift} />
+            <GiftCart gift={gift} />
+            <GiftCart gift={gift} />
+            <GiftCart gift={gift} />
+          </div>
+          <Group header={<Header mode="secondary">Групповые подарки</Header>}>
+            <CardGrid>
+              <Card size="s">
+                <div style={{ height: 96 }} />
+              </Card>
+            </CardGrid>
+          </Group>
         </Panel>
       </View>
     </Epic>
