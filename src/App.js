@@ -4,8 +4,10 @@ import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenS
 import { View, Panel, Placeholder } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { useLocation } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
 
-import BlabberAPI from './api';
+import { blabberClient, GET_TOKENS, MY_USER } from './apiGraphQl';
+import BlabberRestAPI from './api';
 import NewUser from './components/NewUser/NewUser';
 import GameApp from './components/GameApp/GameApp';
 import Error from './components/Error/Error';
@@ -25,6 +27,7 @@ const App = () => {
   const [status, setStatus] = useState('');
   const [isKnownUser, setIsKnownUser] = useState(false);
   const [user, setUser] = useState(null);
+  const [signedPassword, setSignedPassword] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -42,13 +45,23 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const api = new BlabberAPI();
+    const api = new BlabberRestAPI();
     api.getAuth(authStr)
       .then((res) => {
-        // запросить токены
+        if (res.code === 200) {
+          res.body.then(
+            (result) => {
+              setSignedPassword(result.password);
+              setLoading(false);
+            },
+            () => {
+              setError(true);
+              setLoading(false);
+            },
+          );
+        }
         setIsKnownUser(res.code === 200);
         setStatus(userStatusesMapper[res.code]);
-        setLoading(false);
       })
       .catch((err) => {
         setErrorMessage(err.message);
@@ -69,6 +82,30 @@ const App = () => {
     </View>
   );
 
+  const obtainTokens = () => (
+    blabberClient.mutate({
+      mutation: GET_TOKENS,
+      variables: { username: user.id, password: signedPassword },
+      errorPolicy: 'all', // Значит, что в результате ответа мы получим поле с ошибками
+    }).then(
+      (result) => {
+        localStorage.setItem('token', result.data.tokenAuth.token);
+      },
+      () => setError(true),
+    )
+  );
+
+  const whoAmI = () => (
+    blabberClient.query({
+      query: MY_USER,
+      errorPolicy: 'all',
+    }).then(
+      // eslint-disable-next-line no-console
+      (result) => console.log(result),
+      // eslint-disable-next-line no-console
+      (err) => console.log(err),
+    ));
+
   if (loading) return <Loader />;
   if (error) return <Error message={errorMessage} />;
 
@@ -83,8 +120,18 @@ const App = () => {
       />
     );
   }
+  if (isKnownUser && user && signedPassword) {
+    obtainTokens();
+    // Отладочный вызов - проверяем, что мы авторизовались
+    whoAmI();
+    return (
+      <ApolloProvider client={blabberClient}>
+        <GameApp />
+      </ApolloProvider>
+    );
+  }
 
-  return <GameApp />;
+  return null;
 };
 
 export default App;

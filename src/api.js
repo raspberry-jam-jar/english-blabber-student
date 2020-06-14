@@ -1,5 +1,5 @@
-class BlabberAPI {
-  apiBase = process.env.REACT_APP_SERVER || '';
+class BlabberRestAPI {
+  apiBase = `${process.env.REACT_APP_SERVER}/api/v1/`;
 
   // basic methods
   async getResource(url) {
@@ -16,7 +16,7 @@ class BlabberAPI {
     if (!res.ok && !notErrorArray.includes(res.status)) {
       throw new Error(`Could not fetch ${url}, status: ${res.status}`);
     }
-    return { code: res.status };
+    return { code: res.status, body: res.json() };
   }
 
   async postData(url, body) {
@@ -41,4 +41,4 @@ class BlabberAPI {
   }
 }
 
-export default BlabberAPI;
+export default BlabberRestAPI;
