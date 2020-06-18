@@ -9,10 +9,11 @@ import GiftCart from '../GiftCart/GiftCart';
 import styles from './gameApp.module.scss';
 
 const gift = {
-  canBuy: false,
+  canBuy: true,
   image: '',
   price: 10,
   name: 'Дополнительное время на тесте',
+  remain: 3,
 };
 
 const GameApp = () => {
