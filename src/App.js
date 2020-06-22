@@ -6,7 +6,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import { useLocation } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-import { blabberClient, GET_TOKENS, MY_USER } from './apiGraphQl';
+import { blabberClient, GET_TOKENS } from './apiGraphQl';
 import BlabberRestAPI from './api';
 import NewUser from './components/NewUser/NewUser';
 import GameApp from './components/GameApp/GameApp';
@@ -95,17 +95,6 @@ const App = () => {
     )
   );
 
-  const whoAmI = () => (
-    blabberClient.query({
-      query: MY_USER,
-      errorPolicy: 'all',
-    }).then(
-      // eslint-disable-next-line no-console
-      (result) => console.log(result),
-      // eslint-disable-next-line no-console
-      (err) => console.log(err),
-    ));
-
   if (loading) return <Loader />;
   if (error) return <Error message={errorMessage} />;
 
@@ -122,11 +111,9 @@ const App = () => {
   }
   if (isKnownUser && user && signedPassword) {
     obtainTokens();
-    // Отладочный вызов - проверяем, что мы авторизовались
-    whoAmI();
     return (
       <ApolloProvider client={blabberClient}>
-        <GameApp />
+        <GameApp user={user} />
       </ApolloProvider>
     );
   }

@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import styles from './giftCart.module.scss';
 import defaultImage from './giftbox.png';
 
-const GiftCart = ({ gift }) => {
+const GiftCart = ({ gift, isBackpack }) => {
   const imageUrl = gift.image ? gift.image : defaultImage;
   const remainLookup = gift.remain != null ? `${gift.remain} шт.` : '';
+  const boughtQuantityLookup = `${gift.quantity} шт.`;
 
   return (
     <a className={`${styles.giftContainer} ${gift.canBuy ? '' : styles.isTooExpensive}`} href="some-href">
@@ -18,7 +19,7 @@ const GiftCart = ({ gift }) => {
           <span className={styles.coin} />
           {gift.price}
         </div>
-        <div>{remainLookup}</div>
+        <div>{isBackpack ? boughtQuantityLookup : remainLookup}</div>
       </div>
       <div>{gift.name}</div>
     </a>
@@ -32,7 +33,13 @@ GiftCart.propTypes = {
     price: PropTypes.number,
     remain: PropTypes.number,
     image: PropTypes.string,
+    quantity: PropTypes.number,
   }).isRequired,
+  isBackpack: PropTypes.bool,
+};
+
+GiftCart.defaultProps = {
+  isBackpack: false,
 };
 
 export default GiftCart;

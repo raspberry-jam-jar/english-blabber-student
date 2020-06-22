@@ -29,9 +29,22 @@ const GET_TOKENS = gql`
   }`;
 
 const MY_USER = gql`
-  query myUser {
-    myUser {
-      username
+  query {
+    myUser{
+      hero {
+        heroClassName
+        heroClassLevel
+        heroClassSkills {
+          id
+          name
+        }
+        backpack {
+          name
+          quantity
+          price
+          image
+        }
+      }
     }
 }`;
 
