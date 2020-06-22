@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   View, Panel, PanelHeader, Epic, Group, Header, CardGrid, Card,
 } from '@vkontakte/vkui';
@@ -7,6 +7,7 @@ import {
 import BottomMenu from '../BottomMenu/BottomMenu';
 import GiftCart from '../GiftCart/GiftCart';
 import styles from './gameApp.module.scss';
+import ProfileContent from '../ProfileContent/ProfileContent';
 
 const gift = {
   canBuy: true,
@@ -16,13 +17,14 @@ const gift = {
   remain: 3,
 };
 
-const GameApp = () => {
+const GameApp = ({ user }) => {
   const [activePanel, setActivePanel] = useState('store');
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
       <View activePanel={activePanel}>
         <Panel id="profile">
           <PanelHeader>Профиль</PanelHeader>
+          <ProfileContent userPhotoUrl={user.photo_200} />
         </Panel>
         <Panel id="chat">
           <PanelHeader>Чат</PanelHeader>
@@ -52,6 +54,10 @@ const GameApp = () => {
   );
 };
 
-GameApp.propTypes = {};
+GameApp.propTypes = {
+  user: PropTypes.shape({
+    photo_200: PropTypes.string,
+  }).isRequired,
+};
 
 export default GameApp;
