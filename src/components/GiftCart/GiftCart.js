@@ -28,6 +28,7 @@ const GiftCart = ({ gift, isBackpack }) => {
 
 GiftCart.propTypes = {
   gift: PropTypes.shape({
+    id: PropTypes.string,
     canBuy: PropTypes.bool,
     name: PropTypes.string,
     price: PropTypes.number,

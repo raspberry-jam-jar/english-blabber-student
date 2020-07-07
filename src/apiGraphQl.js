@@ -39,6 +39,7 @@ const MY_USER = gql`
           name
         }
         backpack {
+          id
           name
           quantity
           price
@@ -48,4 +49,25 @@ const MY_USER = gql`
     }
 }`;
 
-export { blabberClient, GET_TOKENS, MY_USER };
+const GIFTS = gql`
+  query {
+    availableGifts(isGroupWide: false){
+      id
+      name
+      price
+      remain
+      canBuy
+  } availableGroupGifts: availableGifts(isGroupWide: true){
+      id
+      name
+      price
+      remain
+      canBuy
+  }
+}`;
+
+// const GROUP_GIFTS
+
+export {
+  blabberClient, GET_TOKENS, MY_USER, GIFTS,
+};
