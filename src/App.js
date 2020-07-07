@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
-import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
-import { View, Panel, Placeholder } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { useLocation } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -11,6 +9,7 @@ import BlabberRestAPI from './api';
 import NewUser from './components/NewUser/NewUser';
 import GameApp from './components/GameApp/GameApp';
 import Error from './components/Error/Error';
+import Loader from './components/Loader/Loader';
 
 const userStatusesMapper = {
   400: 'error',
@@ -71,16 +70,6 @@ const App = () => {
         console.log(err);
       });
   }, [authStr]);
-
-  const Loader = () => (
-    <View activePanel="loading">
-      <Panel id="loading">
-        <Placeholder header="Ждем ответа от сервера">
-          <ScreenSpinner size="large" />
-        </Placeholder>
-      </Panel>
-    </View>
-  );
 
   const obtainTokens = () => (
     blabberClient.mutate({

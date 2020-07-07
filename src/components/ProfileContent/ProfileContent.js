@@ -5,6 +5,7 @@ import {
 } from '@vkontakte/vkui';
 import { Query } from 'react-apollo';
 
+import Loader from '../Loader/Loader';
 import GiftCart from '../GiftCart/GiftCart';
 import { MY_USER } from '../../apiGraphQl';
 import styles from './profileContent.module.scss';
@@ -13,7 +14,7 @@ const ProfileContent = ({ userPhotoUrl }) => (
   <Query query={MY_USER}>
     {
       ({ loading, error, data }) => {
-        if (loading) return 'Loading...';
+        if (loading) return <Loader />;
         if (error) return `Error! ${error.message}`;
         return (
           <Div>
