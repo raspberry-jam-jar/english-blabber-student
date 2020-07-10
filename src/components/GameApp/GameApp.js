@@ -9,12 +9,12 @@ import ProfileContent from '../ProfileContent/ProfileContent';
 import Store from '../Store/Store';
 
 const GameApp = ({ user }) => {
-  const [activePanel, setActivePanel] = useState('store');
+  const [activePanel, setActivePanel] = useState('profile');
   return (
     <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
       <View activePanel={activePanel}>
         <Panel id="profile">
-          <PanelHeader>Профиль</PanelHeader>
+          <PanelHeader separator={false}>Профиль</PanelHeader>
           <ProfileContent userPhotoUrl={user.photo_200} />
         </Panel>
         <Panel id="chat">

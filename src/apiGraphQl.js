@@ -32,11 +32,16 @@ const MY_USER = gql`
   query {
     myUser{
       hero {
-        heroClassName
-        heroClassLevel
-        heroClassSkills {
-          id
+        coins
+        capacity
+        heroClass {
+          capacity
           name
+          level
+          skills {
+            id
+            name
+          }
         }
         backpack {
           id
