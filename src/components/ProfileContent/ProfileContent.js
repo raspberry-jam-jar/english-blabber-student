@@ -7,6 +7,7 @@ import { Query } from 'react-apollo';
 
 import Loader from '../Loader/Loader';
 import GiftCart from '../GiftCart/GiftCart';
+import HeroRate from '../HeroRate/HeroRate';
 import { MY_USER } from '../../apiGraphQl';
 import styles from './profileContent.module.scss';
 
@@ -17,7 +18,8 @@ const ProfileContent = ({ userPhotoUrl }) => (
         if (loading) return <Loader />;
         if (error) return `Error! ${error.message}`;
         return (
-          <Div>
+          <div>
+            <HeroRate hero={data.myUser.hero} />
             <Div
               className={styles.roundedContainer}
               style={{
@@ -32,12 +34,12 @@ const ProfileContent = ({ userPhotoUrl }) => (
               }}
             >
               <Avatar size={96} src={userPhotoUrl} />
-              <Header mode="primary" style={{ textAlign: 'center' }} subtitle={`Уровень ${data.myUser.hero.heroClassLevel}`}>
-                {data.myUser.hero.heroClassName}
+              <Header mode="primary" style={{ textAlign: 'center' }} subtitle={`Уровень ${data.myUser.hero.heroClass.level}`}>
+                {data.myUser.hero.heroClass.name}
               </Header>
               <Div>
                 {
-                  data.myUser.hero.heroClassSkills.map(
+                  data.myUser.hero.heroClass.skills.map(
                     // eslint-disable-next-line max-len
                     (skill) => <Div key={skill.id} className={styles.roundedContainer}>{skill.name}</Div>,
                   )
@@ -59,7 +61,7 @@ const ProfileContent = ({ userPhotoUrl }) => (
                 )
               }
             </Gallery>
-          </Div>
+          </div>
         );
       }
     }
