@@ -34,7 +34,11 @@ HeroRate.propTypes = {
   hero: PropTypes.shape({
     coins: PropTypes.number.isRequired,
     capacity: PropTypes.number.isRequired,
-    heroClass: PropTypes.object.isRequired,
+    heroClass: PropTypes.shape(
+      {
+        capacity: PropTypes.number.isRequired,
+      },
+    ).isRequired,
   }).isRequired,
 };
 
