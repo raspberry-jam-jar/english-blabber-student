@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  PanelHeader, Header, Div,
+  Header, Div,
 } from '@vkontakte/vkui';
 import { Query } from 'react-apollo';
 
@@ -17,7 +17,6 @@ const Store = () => (
         if (error) return `Error! ${error.message}`;
         return (
           <Div>
-            <PanelHeader>Магазин</PanelHeader>
             <Header mode="secondary">Подарки</Header>
             <Div className={styles.giftsGroup}>
               {data.availableGifts.map((gift) => <GiftCart key={gift.id} gift={gift} />)}
