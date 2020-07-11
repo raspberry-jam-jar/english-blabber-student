@@ -13,7 +13,13 @@ import ProfileContent from '../ProfileContent/ProfileContent';
 import Store from '../Store/Store';
 
 const GameApp = ({ user }) => {
-  const [activePanel, setActivePanel] = useState('profile');
+  const [activePanel, setActivePanel] = useState(sessionStorage.getItem('activePanel') || 'profile');
+
+  const keepActivePanel = (activePanelName) => {
+    sessionStorage.setItem('activePanel', activePanelName);
+    setActivePanel(activePanelName);
+  };
+
   return (
     <Query query={MY_USER}>
       {
@@ -21,7 +27,10 @@ const GameApp = ({ user }) => {
           if (loading) return <Loader />;
           if (error) return `Error! ${error.message}`;
           return (
-            <Epic tabbar={<BottomMenu activePanel={activePanel} setActivePanel={setActivePanel} />}>
+            <Epic tabbar={
+              <BottomMenu activePanel={activePanel} setActivePanel={keepActivePanel} />
+            }
+            >
               <View activePanel={activePanel}>
                 <Panel id="profile">
                   <PanelHeader separator={false}>Профиль</PanelHeader>
