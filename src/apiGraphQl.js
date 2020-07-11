@@ -5,7 +5,7 @@ import {
 const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_SERVER}/graphql` });
 
 const authLink = new ApolloLink((operation, forward) => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   operation.setContext({
     headers: {
       Authorization: token ? `JWT ${token}` : '',
