@@ -78,7 +78,7 @@ const App = () => {
       errorPolicy: 'all', // Значит, что в результате ответа мы получим поле с ошибками
     }).then(
       (result) => {
-        localStorage.setItem('token', result.data.tokenAuth.token);
+        sessionStorage.setItem('token', result.data.tokenAuth.token);
       },
       () => setError(true),
     )
@@ -99,7 +99,9 @@ const App = () => {
     );
   }
   if (isKnownUser && user && signedPassword) {
-    obtainTokens();
+    if (!sessionStorage.getItem('token')) {
+      obtainTokens();
+    }
     return (
       <ApolloProvider client={blabberClient}>
         <GameApp user={user} />
