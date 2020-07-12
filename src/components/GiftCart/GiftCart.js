@@ -98,10 +98,10 @@ const GiftCart = ({
     <div
       className={`${styles.giftContainer} ${giftCase.isActive ? '' : styles.isTooExpensive}`}
     >
-      <div className={styles.giftContainerImg}>
-        <img src={imageUrl} alt="gift box" />
-      </div>
       <div>
+        <div className={styles.giftContainerImg}>
+          <img src={imageUrl} alt="gift box" />
+        </div>
         <div className={styles.giftInfoPanel}>
           <div>
             <span className={styles.coin} />
@@ -112,7 +112,7 @@ const GiftCart = ({
         <div>{gift.name}</div>
       </div>
       <Button
-        style={{ marginTop: 6 }}
+        style={{ marginTop: 12 }}
         onClick={() => setPopout(giftCase.isActive ? confirmActionPopout : declineActionPopout)}
       >
         {giftCase.buttonName}
