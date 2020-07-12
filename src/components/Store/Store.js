@@ -21,13 +21,27 @@ const Store = ({ setPopout, setSnackbar }) => (
             <Header mode="secondary">Подарки</Header>
             <Div className={styles.giftsGroup}>
               {data.availableGifts.map(
-                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} setSnackbar={setSnackbar} />,
+                (gift) => (
+                  <GiftCart
+                    key={gift.id}
+                    gift={gift}
+                    setPopout={setPopout}
+                    setSnackbar={setSnackbar}
+                  />
+                ),
               )}
             </Div>
             <Header mode="secondary">Групповые подарки</Header>
             <Div className={styles.giftsGroup}>
               {data.availableGroupGifts.map(
-                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} setSnackbar={setSnackbar} />,
+                (gift) => (
+                  <GiftCart
+                    key={gift.id}
+                    gift={gift}
+                    setPopout={setPopout}
+                    setSnackbar={setSnackbar}
+                  />
+                ),
               )}
             </Div>
           </Div>
