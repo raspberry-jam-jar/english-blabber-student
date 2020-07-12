@@ -36,7 +36,11 @@ const GameApp = ({ user }) => {
                 <Panel id="profile">
                   <PanelHeader separator={false}>Профиль</PanelHeader>
                   <HeroRate hero={data.myUser.hero} />
-                  <ProfileContent userPhotoUrl={user.photo_200} hero={data.myUser.hero} />
+                  <ProfileContent
+                    userPhotoUrl={user.photo_200}
+                    hero={data.myUser.hero}
+                    setPopout={setPopout}
+                  />
                 </Panel>
                 <Panel id="chat">
                   <PanelHeader separator={false}>Чат</PanelHeader>

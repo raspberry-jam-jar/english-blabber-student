@@ -7,7 +7,7 @@ import {
 import GiftCart from '../GiftCart/GiftCart';
 import styles from './profileContent.module.scss';
 
-const ProfileContent = ({ userPhotoUrl, hero }) => (
+const ProfileContent = ({ userPhotoUrl, hero, setPopout }) => (
   <div>
     <Div
       className={styles.roundedContainer}
@@ -42,13 +42,13 @@ const ProfileContent = ({ userPhotoUrl, hero }) => (
     <Header mode="secondary">Инвентарь</Header>
     <Gallery
       slideWidth="custom"
-      style={{ height: 220, marginTop: 12 }}
+      style={{ height: 310, marginTop: 12 }}
       bullets="dark"
     >
       {
         // eslint-disable-next-line react/prop-types
         hero.backpack.map(
-          (boughtGift) => <GiftCart gift={boughtGift} isBackpack />,
+          (boughtGift) => <GiftCart gift={boughtGift} setPopout={setPopout} isBackpack />,
         )
       }
     </Gallery>
@@ -83,6 +83,7 @@ ProfileContent.propTypes = {
       ).isRequired,
     },
   ).isRequired,
+  setPopout: PropTypes.func.isRequired,
 };
 
 export default ProfileContent;

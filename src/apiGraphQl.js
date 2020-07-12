@@ -73,6 +73,15 @@ const GIFTS = gql`
   }
 }`;
 
+const BUY_OR_USE_GIFT = gql`
+  mutation BuyOrUseUserGiftMutation($giftClassId:Int!, $quantity:Float!){
+    buyOrUseGift(giftClassId: $giftClassId, quantity: $quantity){
+        userGift {
+            id
+        }
+    }
+}`;
+
 export {
-  blabberClient, GET_TOKENS, MY_USER, GIFTS,
+  blabberClient, GET_TOKENS, MY_USER, GIFTS, BUY_OR_USE_GIFT,
 };
