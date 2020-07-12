@@ -4,7 +4,7 @@
   width: 120px;
   border: solid lightgrey 1px;
   border-radius: 3%;
-  align-items: center;
+  align-items: unset;
   cursor: pointer;
   margin: 12px;
   padding: 12px;
@@ -12,6 +12,7 @@
   color: black;
   font-size: 12.5px;
   min-height: min-content;
+  justify-content: space-between;
 }
 
 .giftContainerImg {

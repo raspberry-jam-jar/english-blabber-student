@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Header, Div,
 } from '@vkontakte/vkui';
@@ -9,7 +10,7 @@ import GiftCart from '../GiftCart/GiftCart';
 import Loader from '../Loader/Loader';
 import styles from '../GameApp/gameApp.module.scss';
 
-const Store = () => (
+const Store = ({ setPopout }) => (
   <Query query={GIFTS}>
     {
       ({ loading, error, data }) => {
@@ -19,11 +20,15 @@ const Store = () => (
           <Div>
             <Header mode="secondary">Подарки</Header>
             <Div className={styles.giftsGroup}>
-              {data.availableGifts.map((gift) => <GiftCart key={gift.id} gift={gift} />)}
+              {data.availableGifts.map(
+                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} />,
+              )}
             </Div>
             <Header mode="secondary">Групповые подарки</Header>
             <Div className={styles.giftsGroup}>
-              {data.availableGroupGifts.map((gift) => <GiftCart key={gift.id} gift={gift} />)}
+              {data.availableGroupGifts.map(
+                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} />,
+              )}
             </Div>
           </Div>
         );
@@ -31,5 +36,9 @@ const Store = () => (
   }
   </Query>
 );
+
+Store.propTypes = {
+  setPopout: PropTypes.func.isRequired,
+};
 
 export default Store;

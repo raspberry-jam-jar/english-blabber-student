@@ -62,12 +62,14 @@ const GIFTS = gql`
       price
       remain
       canBuy
+      isGroupWide
   } availableGroupGifts: availableGifts(isGroupWide: true){
       id
       name
       price
       remain
       canBuy
+      isGroupWide
   }
 }`;
 
