@@ -7,10 +7,21 @@ import defaultImage from './giftbox.png';
 
 const GiftCart = ({ gift, isBackpack, setPopout }) => {
   const imageUrl = gift.image ? gift.image : defaultImage;
-  const remainLookup = gift.remain != null ? `${gift.remain} шт.` : '';
-  const boughtQuantityLookup = `${gift.quantity} шт.`;
-  const buttonName = isBackpack ? 'Использовать' : 'Купить';
-  const alertBody = isBackpack ? `Использовать "${gift.name}"?` : `Купить "${gift.name}" за ${gift.price} профкоинов?`;
+  const useGift = {
+    alertBody: `Использовать "${gift.name}"?`,
+    isActive: true,
+    buttonName: 'Использовать',
+    alertButtonName: 'Да, давай!',
+    lookup: `${gift.quantity} шт.`,
+  };
+  const buyGift = {
+    alertBody: `Купить "${gift.name}" за ${gift.price} профкоинов?`,
+    isActive: gift.canBuy,
+    buttonName: 'Купить',
+    alertButtonName: 'Беру!',
+    lookup: gift.remain != null ? `${gift.remain} шт.` : '',
+  };
+  const giftCase = isBackpack ? useGift : buyGift;
 
   const closePopout = () => {
     setPopout(null);
@@ -23,14 +34,14 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
         autoclose: true,
         mode: 'cancel',
       }, {
-        title: buttonName,
+        title: giftCase.alertButtonName,
         autoclose: true,
       }]}
       onClose={closePopout}
     >
       <h2>Подтвердите действие</h2>
       <p>
-        {alertBody}
+        {giftCase.alertBody}
       </p>
     </Alert>
   );
@@ -54,7 +65,7 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
 
   return (
     <div
-      className={`${styles.giftContainer} ${gift.canBuy ? '' : styles.isTooExpensive}`}
+      className={`${styles.giftContainer} ${giftCase.isActive ? '' : styles.isTooExpensive}`}
     >
       <div className={styles.giftContainerImg}>
         <img src={imageUrl} alt="gift box" />
@@ -65,15 +76,15 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
             <span className={styles.coin} />
             {gift.price}
           </div>
-          <div>{isBackpack ? boughtQuantityLookup : remainLookup}</div>
+          <div>{giftCase.lookup}</div>
         </div>
         <div>{gift.name}</div>
       </div>
       <Button
         style={{ marginTop: 6 }}
-        onClick={() => setPopout(gift.canBuy ? confirmActionPopout : declineActionPopout)}
+        onClick={() => setPopout(giftCase.isActive ? confirmActionPopout : declineActionPopout)}
       >
-        {buttonName}
+        {giftCase.buttonName}
       </Button>
     </div>
   );

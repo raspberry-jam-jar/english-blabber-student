@@ -12,6 +12,7 @@
   color: black;
   font-size: 12.5px;
   min-height: min-content;
+  max-height: 250px;
   justify-content: space-between;
 }
 
@@ -31,7 +32,7 @@
 .giftInfoPanel {
   display: flex;
   align-items: flex-start;
-  padding: 12px;
+  padding: 12px 0;
   width: 100%;
   justify-content: space-between;
 }
