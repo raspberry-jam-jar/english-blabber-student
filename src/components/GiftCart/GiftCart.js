@@ -1,11 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Alert } from '@vkontakte/vkui';
+import {
+  Button, Alert,
+} from '@vkontakte/vkui';
+import { useMutation } from '@apollo/react-hooks';
 
+import { BUY_OR_USE_GIFT } from '../../apiGraphQl';
+import Loader from '../Loader/Loader';
+import { ErrorSnackbar, SuccessSnackbar } from '../Snackbars/Snackbars';
 import styles from './giftCart.module.scss';
 import defaultImage from './giftbox.png';
 
-const GiftCart = ({ gift, isBackpack, setPopout }) => {
+const GiftCart = ({
+  gift, isBackpack, setPopout, setSnackbar,
+}) => {
   const imageUrl = gift.image ? gift.image : defaultImage;
   const useGift = {
     alertBody: `Использовать "${gift.name}"?`,
@@ -13,6 +21,8 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
     buttonName: 'Использовать',
     alertButtonName: 'Да, давай!',
     lookup: `${gift.quantity} шт.`,
+    giftClassId: gift.giftClass ? gift.giftClass.id : null,
+    quantity: -1,
   };
   const buyGift = {
     alertBody: `Купить "${gift.name}" за ${gift.price} профкоинов?`,
@@ -20,8 +30,22 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
     buttonName: 'Купить',
     alertButtonName: 'Беру!',
     lookup: gift.remain != null ? `${gift.remain} шт.` : '',
+    giftClassId: gift.id,
+    quantity: 1,
   };
   const giftCase = isBackpack ? useGift : buyGift;
+
+  const showSnackbar = (data, error) => {
+    if (error || data.errors) setSnackbar(<ErrorSnackbar setSnackbar={setSnackbar} />);
+    if (data.errors === undefined) setSnackbar(<SuccessSnackbar setSnackbar={setSnackbar} />);
+  };
+  const [mutateGift, { loading }] = useMutation(
+    BUY_OR_USE_GIFT,
+    {
+      onCompleted: (data) => showSnackbar(data),
+      onError: (error) => showSnackbar(error),
+    },
+  );
 
   const closePopout = () => {
     setPopout(null);
@@ -36,6 +60,11 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
       }, {
         title: giftCase.alertButtonName,
         autoclose: true,
+        action: () => mutateGift(
+          {
+            variables: { giftClassId: giftCase.giftClassId, quantity: giftCase.quantity },
+          },
+        ),
       }]}
       onClose={closePopout}
     >
@@ -62,6 +91,8 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
       </p>
     </Alert>
   );
+
+  if (loading) return <Loader />;
 
   return (
     <div
@@ -92,21 +123,31 @@ const GiftCart = ({ gift, isBackpack, setPopout }) => {
 
 GiftCart.propTypes = {
   gift: PropTypes.shape({
-    id: PropTypes.string,
-    canBuy: PropTypes.bool,
-    name: PropTypes.string,
-    price: PropTypes.number,
+    id: PropTypes.string.isRequired,
+    canBuy: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
     remain: PropTypes.number,
     image: PropTypes.string,
     quantity: PropTypes.number,
-    isGroupWide: PropTypes.bool,
-  }).isRequired,
+    isGroupWide: PropTypes.bool.isRequired,
+    giftClass: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }),
   isBackpack: PropTypes.bool,
   setPopout: PropTypes.func.isRequired,
+  setSnackbar: PropTypes.func.isRequired,
 };
 
 GiftCart.defaultProps = {
   isBackpack: false,
+  gift: {
+    remain: null,
+    giftClass: {
+      id: null,
+    },
+  },
 };
 
 export default GiftCart;

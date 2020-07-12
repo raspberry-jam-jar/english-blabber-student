@@ -49,6 +49,9 @@ const MY_USER = gql`
           quantity
           price
           image
+          giftClass {
+            id
+          }
         }
       }
     }
