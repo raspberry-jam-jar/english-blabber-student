@@ -50,7 +50,15 @@ const ProfileContent = ({
       {
         // eslint-disable-next-line react/prop-types
         hero.backpack.map(
-          (boughtGift) => <GiftCart key={boughtGift.id} gift={boughtGift} setPopout={setPopout} setSnackbar={setSnackbar} isBackpack />,
+          (boughtGift) => (
+            <GiftCart
+              key={boughtGift.id}
+              gift={boughtGift}
+              setPopout={setPopout}
+              setSnackbar={setSnackbar}
+              isBackpack
+            />
+          ),
         )
       }
     </Gallery>
