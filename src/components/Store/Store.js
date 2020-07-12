@@ -10,7 +10,7 @@ import GiftCart from '../GiftCart/GiftCart';
 import Loader from '../Loader/Loader';
 import styles from '../GameApp/gameApp.module.scss';
 
-const Store = ({ setPopout }) => (
+const Store = ({ setPopout, setSnackbar }) => (
   <Query query={GIFTS}>
     {
       ({ loading, error, data }) => {
@@ -21,13 +21,13 @@ const Store = ({ setPopout }) => (
             <Header mode="secondary">Подарки</Header>
             <Div className={styles.giftsGroup}>
               {data.availableGifts.map(
-                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} />,
+                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} setSnackbar={setSnackbar} />,
               )}
             </Div>
             <Header mode="secondary">Групповые подарки</Header>
             <Div className={styles.giftsGroup}>
               {data.availableGroupGifts.map(
-                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} />,
+                (gift) => <GiftCart key={gift.id} gift={gift} setPopout={setPopout} setSnackbar={setSnackbar} />,
               )}
             </Div>
           </Div>
@@ -39,6 +39,7 @@ const Store = ({ setPopout }) => (
 
 Store.propTypes = {
   setPopout: PropTypes.func.isRequired,
+  setSnackbar: PropTypes.func.isRequired,
 };
 
 export default Store;

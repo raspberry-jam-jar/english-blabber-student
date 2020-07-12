@@ -15,6 +15,7 @@ import Store from '../Store/Store';
 const GameApp = ({ user }) => {
   const [activePanel, setActivePanel] = useState(sessionStorage.getItem('activePanel') || 'profile');
   const [popout, setPopout] = useState(null);
+  const [snackbar, setSnackbar] = useState(null);
 
   const keepActivePanel = (activePanelName) => {
     sessionStorage.setItem('activePanel', activePanelName);
@@ -40,7 +41,9 @@ const GameApp = ({ user }) => {
                     userPhotoUrl={user.photo_200}
                     hero={data.myUser.hero}
                     setPopout={setPopout}
+                    setSnackbar={setSnackbar}
                   />
+                  {snackbar}
                 </Panel>
                 <Panel id="chat">
                   <PanelHeader separator={false}>Чат</PanelHeader>
@@ -49,7 +52,8 @@ const GameApp = ({ user }) => {
                 <Panel id="store">
                   <PanelHeader separator={false}>Магазин</PanelHeader>
                   <HeroRate hero={data.myUser.hero} />
-                  <Store setPopout={setPopout} />
+                  <Store setPopout={setPopout} setSnackbar={setSnackbar} />
+                  {snackbar}
                 </Panel>
               </View>
             </Epic>

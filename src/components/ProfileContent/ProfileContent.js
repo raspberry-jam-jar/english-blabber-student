@@ -7,7 +7,9 @@ import {
 import GiftCart from '../GiftCart/GiftCart';
 import styles from './profileContent.module.scss';
 
-const ProfileContent = ({ userPhotoUrl, hero, setPopout }) => (
+const ProfileContent = ({
+  userPhotoUrl, hero, setPopout, setSnackbar,
+}) => (
   <div>
     <Div
       className={styles.roundedContainer}
@@ -48,7 +50,7 @@ const ProfileContent = ({ userPhotoUrl, hero, setPopout }) => (
       {
         // eslint-disable-next-line react/prop-types
         hero.backpack.map(
-          (boughtGift) => <GiftCart gift={boughtGift} setPopout={setPopout} isBackpack />,
+          (boughtGift) => <GiftCart key={boughtGift.id} gift={boughtGift} setPopout={setPopout} setSnackbar={setSnackbar} isBackpack />,
         )
       }
     </Gallery>
@@ -84,6 +86,7 @@ ProfileContent.propTypes = {
     },
   ).isRequired,
   setPopout: PropTypes.func.isRequired,
+  setSnackbar: PropTypes.func.isRequired,
 };
 
 export default ProfileContent;
