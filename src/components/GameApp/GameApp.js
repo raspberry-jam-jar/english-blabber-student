@@ -25,7 +25,9 @@ const GameApp = ({ user }) => {
   return (
     <Query query={MY_USER}>
       {
-        ({ loading, error, data }) => {
+        ({
+          loading, error, data, refetch,
+        }) => {
           if (loading) return <Loader />;
           if (error) return `Error! ${error.message}`;
           return (
@@ -42,6 +44,7 @@ const GameApp = ({ user }) => {
                     hero={data.myUser.hero}
                     setPopout={setPopout}
                     setSnackbar={setSnackbar}
+                    refetchMyUserState={refetch}
                   />
                   {snackbar}
                 </Panel>
@@ -52,7 +55,11 @@ const GameApp = ({ user }) => {
                 <Panel id="store">
                   <PanelHeader separator={false}>Магазин</PanelHeader>
                   <HeroRate hero={data.myUser.hero} />
-                  <Store setPopout={setPopout} setSnackbar={setSnackbar} />
+                  <Store
+                    setPopout={setPopout}
+                    setSnackbar={setSnackbar}
+                    refetchMyUserState={refetch}
+                  />
                   {snackbar}
                 </Panel>
               </View>

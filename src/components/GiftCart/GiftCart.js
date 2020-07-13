@@ -12,7 +12,7 @@ import styles from './giftCart.module.scss';
 import defaultImage from './giftbox.png';
 
 const GiftCart = ({
-  gift, isBackpack, setPopout, setSnackbar,
+  gift, isBackpack, setPopout, setSnackbar, refetchStore, refetchMyUserState,
 }) => {
   const imageUrl = gift.image ? gift.image : defaultImage;
   const useGift = {
@@ -37,7 +37,11 @@ const GiftCart = ({
 
   const showSnackbar = (data, error) => {
     if (error || data.errors) setSnackbar(<ErrorSnackbar setSnackbar={setSnackbar} />);
-    if (data.errors === undefined) setSnackbar(<SuccessSnackbar setSnackbar={setSnackbar} />);
+    if (data.errors === undefined) {
+      refetchMyUserState();
+      if (refetchStore) refetchStore();
+      setSnackbar(<SuccessSnackbar setSnackbar={setSnackbar} />);
+    }
   };
   const [mutateGift, { loading }] = useMutation(
     BUY_OR_USE_GIFT,
@@ -138,6 +142,8 @@ GiftCart.propTypes = {
   isBackpack: PropTypes.bool,
   setPopout: PropTypes.func.isRequired,
   setSnackbar: PropTypes.func.isRequired,
+  refetchMyUserState: PropTypes.func.isRequired,
+  refetchStore: PropTypes.func,
 };
 
 GiftCart.defaultProps = {
@@ -148,6 +154,7 @@ GiftCart.defaultProps = {
       id: null,
     },
   },
+  refetchStore: null,
 };
 
 export default GiftCart;

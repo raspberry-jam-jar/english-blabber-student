@@ -10,10 +10,12 @@ import GiftCart from '../GiftCart/GiftCart';
 import Loader from '../Loader/Loader';
 import styles from '../GameApp/gameApp.module.scss';
 
-const Store = ({ setPopout, setSnackbar }) => (
+const Store = ({ setPopout, setSnackbar, refetchMyUserState }) => (
   <Query query={GIFTS}>
     {
-      ({ loading, error, data }) => {
+      ({
+        loading, error, data, refetch,
+      }) => {
         if (loading) return <Loader />;
         if (error) return `Error! ${error.message}`;
         return (
@@ -27,6 +29,8 @@ const Store = ({ setPopout, setSnackbar }) => (
                     gift={gift}
                     setPopout={setPopout}
                     setSnackbar={setSnackbar}
+                    refetchStore={refetch}
+                    refetchMyUserState={refetchMyUserState}
                   />
                 ),
               )}
@@ -40,6 +44,8 @@ const Store = ({ setPopout, setSnackbar }) => (
                     gift={gift}
                     setPopout={setPopout}
                     setSnackbar={setSnackbar}
+                    refetchStore={refetch}
+                    refetchMyUserState={refetchMyUserState}
                   />
                 ),
               )}
@@ -54,6 +60,7 @@ const Store = ({ setPopout, setSnackbar }) => (
 Store.propTypes = {
   setPopout: PropTypes.func.isRequired,
   setSnackbar: PropTypes.func.isRequired,
+  refetchMyUserState: PropTypes.func.isRequired,
 };
 
 export default Store;
