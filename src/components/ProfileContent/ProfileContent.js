@@ -8,7 +8,7 @@ import GiftCart from '../GiftCart/GiftCart';
 import styles from './profileContent.module.scss';
 
 const ProfileContent = ({
-  userPhotoUrl, hero, setPopout, setSnackbar,
+  userPhotoUrl, hero, setPopout, setSnackbar, refetchMyUserState,
 }) => (
   <div>
     <Div
@@ -56,6 +56,7 @@ const ProfileContent = ({
               gift={boughtGift}
               setPopout={setPopout}
               setSnackbar={setSnackbar}
+              refetchMyUserState={refetchMyUserState}
               isBackpack
             />
           ),
@@ -95,6 +96,7 @@ ProfileContent.propTypes = {
   ).isRequired,
   setPopout: PropTypes.func.isRequired,
   setSnackbar: PropTypes.func.isRequired,
+  refetchMyUserState: PropTypes.func.isRequired,
 };
 
 export default ProfileContent;
