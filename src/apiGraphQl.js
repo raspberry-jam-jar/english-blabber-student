@@ -77,7 +77,7 @@ const GIFTS = gql`
 }`;
 
 const BUY_OR_USE_GIFT = gql`
-  mutation BuyOrUseUserGiftMutation($giftClassId:Int!, $quantity:Float!){
+  mutation BuyOrUseUserGiftMutation($giftClassId:Int!, $quantity:Int!){
     buyOrUseGift(giftClassId: $giftClassId, quantity: $quantity){
         userGift {
             id
