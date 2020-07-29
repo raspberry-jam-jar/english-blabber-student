@@ -4,6 +4,7 @@ import {
   Button, Alert,
 } from '@vkontakte/vkui';
 import { useMutation } from '@apollo/react-hooks';
+import { isApolloError } from 'apollo-boost';
 
 import { BUY_OR_USE_GIFT } from '../../apiGraphQl';
 import Loader from '../Loader/Loader';
@@ -35,9 +36,9 @@ const GiftCart = ({
   };
   const giftCase = isBackpack ? useGift : buyGift;
 
-  const showSnackbar = (data, error) => {
-    if (error || data.errors) setSnackbar(<ErrorSnackbar setSnackbar={setSnackbar} />);
-    if (data.errors === undefined) {
+  const showSnackbar = (data) => {
+    if (isApolloError(data)) setSnackbar(<ErrorSnackbar setSnackbar={setSnackbar} />);
+    else {
       refetchMyUserState();
       if (refetchStore) refetchStore();
       setSnackbar(<SuccessSnackbar setSnackbar={setSnackbar} />);
