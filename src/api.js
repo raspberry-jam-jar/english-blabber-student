@@ -1,5 +1,5 @@
 class BlabberRestAPI {
-  apiBase = `${process.env.REACT_APP_SERVER}/api/v1/`;
+  apiBase = `https://${process.env.REACT_APP_SERVER}/api/v1/`;
 
   // basic methods
   async getResource(url) {
