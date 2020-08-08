@@ -1,8 +1,11 @@
 import {
   ApolloClient, InMemoryCache, HttpLink, gql, ApolloLink,
 } from 'apollo-boost';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { split } from '@apollo/client';
 
-const httpLink = new HttpLink({ uri: `${process.env.REACT_APP_SERVER}/graphql` });
+const httpLink = new HttpLink({ uri: `https://${process.env.REACT_APP_SERVER}/graphql` });
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem('token');
@@ -14,9 +17,28 @@ const authLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const wsLink = new WebSocketLink({
+  uri: `wss://${process.env.REACT_APP_SERVER}/ws/graphql/`,
+  options: {
+    reconnect: true,
+  },
+});
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition'
+      && definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  authLink.concat(httpLink),
+);
+
 const blabberClient = new ApolloClient({
   credentials: 'include',
-  link: authLink.concat(httpLink),
+  link: splitLink,
   cache: new InMemoryCache(),
 });
 
@@ -31,6 +53,10 @@ const GET_TOKENS = gql`
 const MY_USER = gql`
   query {
     myUser{
+      id
+      learningGroups {
+        id
+      }
       hero {
         coins
         capacity
@@ -85,6 +111,55 @@ const BUY_OR_USE_GIFT = gql`
     }
 }`;
 
+const GET_CHATROOM_HISTORY = gql`
+  query History($chatroomId: String!) {
+    chatroomHistory(chatroomId: $chatroomId) {
+      id
+      datetimeCreated
+      text
+      author {
+        firstName
+        lastName
+        hero {
+          heroClass {
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+const SEND_MESSAGE = gql`
+mutation SendMessageMutation($chatroomId: String!, $authorId: Int!, $text: String!) {
+  sendChatMessage(chatroomId: $chatroomId, authorId: $authorId, text: $text){
+    message {
+     id
+    }
+  }
+}`;
+
+const NEW_MESSAGES_SUBSCRIPTION = gql`
+subscription OnNewChatMessage($chatroomId: String!) {
+  onNewChatMessage(chatroomId: $chatroomId){
+    message {
+      id
+      datetimeCreated
+      text
+      author {
+        firstName
+        lastName
+        hero {
+          heroClass {
+            name
+          }
+        }
+      }
+    }
+  }
+}`;
+
 export {
   blabberClient, GET_TOKENS, MY_USER, GIFTS, BUY_OR_USE_GIFT,
+  GET_CHATROOM_HISTORY, SEND_MESSAGE, NEW_MESSAGES_SUBSCRIPTION,
 };
