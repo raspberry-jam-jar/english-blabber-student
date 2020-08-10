@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
+import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
 import {
   FormLayout, Input, Button, Div,
 } from '@vkontakte/vkui';
@@ -12,17 +13,24 @@ import {
 import MessageCard from '../Message/Message';
 
 const Chatroom = ({
-  userId, chatRoomId, chatroomHistory, subscribeToNewMessages,
+  userId, chatRoomId, chatroomHistory, subscribeToNewMessages, loadingMore, LoadMoreMessages,
 }) => {
   const [messageText, setMessageText] = useState('');
   const [sendMessage] = useMutation(SEND_MESSAGE, { client: blabberClient });
+
+  window.onscroll = () => {
+    if (document.documentElement.scrollTop === 0 && !loadingMore) {
+      LoadMoreMessages();
+    }
+  };
 
   useEffect(() => {
     subscribeToNewMessages();
   }, []);
 
   return (
-    <Div style={{ paddingBottom: 60 }}>
+    <div style={{ paddingBottom: 60 }}>
+      {loadingMore && <ScreenSpinner size="small" />}
       {chatroomHistory.map(
         (message) => (
           <MessageCard key={message.id} message={message} />
@@ -72,7 +80,7 @@ const Chatroom = ({
           Отправить
         </Button>
       </Div>
-    </Div>
+    </div>
   );
 };
 
@@ -80,6 +88,8 @@ Chatroom.propTypes = {
   userId: PropTypes.string.isRequired,
   chatRoomId: PropTypes.string.isRequired,
   subscribeToNewMessages: PropTypes.func.isRequired,
+  loadingMore: PropTypes.bool.isRequired,
+  LoadMoreMessages: PropTypes.func.isRequired,
   chatroomHistory: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
