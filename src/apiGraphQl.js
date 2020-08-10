@@ -112,8 +112,8 @@ const BUY_OR_USE_GIFT = gql`
 }`;
 
 const GET_CHATROOM_HISTORY = gql`
-  query History($chatroomId: String!) {
-    chatroomHistory(chatroomId: $chatroomId) {
+  query History($chatroomId: String!, $batchSize: Int!, $datetimeCursor: String!) {
+    chatroomHistory(chatroomId: $chatroomId, batchSize: $batchSize, datetimeCursor: $datetimeCursor) {
       id
       datetimeCreated
       text

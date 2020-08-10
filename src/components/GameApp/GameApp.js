@@ -30,18 +30,25 @@ const GameApp = ({ user }) => {
   } = useQuery(MY_USER, { client: blabberClient });
 
   const [loadHistory, {
-    called, subscribeToMore, loading: loadingHistory, data: chatroomHistoryData,
+    called, subscribeToMore, loading: loadingHistory, data: chatroomHistoryData, fetchMore,
   }] = useLazyQuery(
-    GET_CHATROOM_HISTORY, { client: blabberClient },
+    GET_CHATROOM_HISTORY, {
+      client: blabberClient,
+      notifyOnNetworkStatusChange: true,
+    },
   );
 
-  if (loading || loadingHistory) return <Loader />;
+  if (loading || (loadingHistory && called === 1)) return <Loader />;
   if (error) return `Error! ${error.message}`;
 
   if (myUserData.myUser && !called) {
     loadHistory(
       {
-        variables: { chatroomId: myUserData.myUser.learningGroups[0].id },
+        variables: {
+          chatroomId: myUserData.myUser.learningGroups[0].id,
+          batchSize: 10,
+          datetimeCursor: '',
+        },
       },
     );
   }
@@ -72,6 +79,19 @@ const GameApp = ({ user }) => {
               userId={myUserData.myUser.id}
               chatRoomId={myUserData.myUser.learningGroups[0].id}
               chatroomHistory={chatroomHistoryData.chatroomHistory}
+              loadingMore={loadingHistory}
+              LoadMoreMessages={() => fetchMore({
+                variables: {
+                  datetimeCursor: chatroomHistoryData.chatroomHistory[0].datetimeCreated,
+                },
+                updateQuery: (prev, { fetchMoreResult }) => {
+                  if (!fetchMoreResult) return prev;
+                  // eslint-disable-next-line prefer-object-spread
+                  return Object.assign({}, prev, {
+                    chatroomHistory: [...fetchMoreResult.chatroomHistory, ...prev.chatroomHistory],
+                  });
+                },
+              })}
               subscribeToNewMessages={() => subscribeToMore({
                 document: NEW_MESSAGES_SUBSCRIPTION,
                 variables: { chatroomId: myUserData.myUser.learningGroups[0].id },
