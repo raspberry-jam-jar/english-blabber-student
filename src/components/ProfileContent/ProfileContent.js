@@ -10,7 +10,7 @@ import styles from './profileContent.module.scss';
 const ProfileContent = ({
   userPhotoUrl, hero, setPopout, setSnackbar, refetchMyUserState,
 }) => (
-  <div>
+  <Div>
     <Div
       className={styles.roundedContainer}
       style={{
@@ -19,7 +19,7 @@ const ProfileContent = ({
         justifyContent: 'center',
         flexDirection: 'column',
         width: '50%',
-        marginTop: 12,
+        marginTop: 45,
         marginRight: 'auto',
         marginLeft: 'auto',
       }}
@@ -63,7 +63,7 @@ const ProfileContent = ({
         )
       }
     </Gallery>
-  </div>
+  </Div>
 );
 
 ProfileContent.propTypes = {

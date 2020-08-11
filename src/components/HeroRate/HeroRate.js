@@ -14,6 +14,8 @@ const HeroRate = ({ hero }) => (
       background: 'lightgrey',
       padding: 0,
       width: '100%',
+      position: 'fixed',
+      zIndex: 12,
     }}
   >
     <Div>
