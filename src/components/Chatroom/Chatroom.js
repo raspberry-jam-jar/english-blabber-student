@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 import ScreenSpinner from '@vkontakte/vkui/dist/components/ScreenSpinner/ScreenSpinner';
@@ -17,6 +17,7 @@ const Chatroom = ({
 }) => {
   const [messageText, setMessageText] = useState('');
   const [sendMessage] = useMutation(SEND_MESSAGE, { client: blabberClient });
+  const messagesEndRef = useRef(null);
 
   window.onscroll = () => {
     if (document.documentElement.scrollTop === 0 && !loadingMore) {
@@ -25,6 +26,7 @@ const Chatroom = ({
   };
 
   useEffect(() => {
+    messagesEndRef.current.scrollIntoView({ block: 'end', inline: 'nearest', behavior: 'smooth' });
     subscribeToNewMessages();
   }, []);
 
@@ -80,6 +82,7 @@ const Chatroom = ({
           Отправить
         </Button>
       </Div>
+      <div ref={messagesEndRef} />
     </div>
   );
 };
