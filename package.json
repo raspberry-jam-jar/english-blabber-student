@@ -33,6 +33,8 @@
     "react-scripts": "^3.4.1"
   },
   "dependencies": {
+    "cross-env": "^5.2.1",
+    "react-scripts": "^3.4.1",
     "@apollo/client": "^3.1.3",
     "@apollo/react-hooks": "^3.1.5",
     "@vkontakte/icons": "^1.20.2",
